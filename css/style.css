@@ -229,7 +229,7 @@ a:focus {
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: url(/Fitness-Challenge-Event/images/real2.JPG);
+  background-image: url(../images/real2.jpg);
   background-size: cover;
   filter: blur(3px);
   z-index: -1;
