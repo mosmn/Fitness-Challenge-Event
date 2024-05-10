@@ -23,7 +23,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>FCZ Admin</title>
+  <title>Fit Challenge Zoom</title>
 
   <!-- slider stylesheet -->
   <link rel="stylesheet" type="text/css"
@@ -50,7 +50,7 @@
           <a class="navbar-brand" href="../index.html">
             <img src="../images/logo.png" alt="" />
             <span>
-            FCZ Admin
+              Fitness Challenge Zoom
             </span>
           </a>
           <div class="contact_nav" id="">
@@ -94,19 +94,28 @@
               <div class="d-flex  flex-column flex-lg-row align-items-center">
                 <ul class="navbar-nav  ">
                   <li class="nav-item">
-                    <a class="nav-link" href="admin_view.php">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="../index.html">Home <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="add_subevent-form.php">Add Sub-Event</a>
+                    <a class="nav-link" href="../pages/about.html">About</a>
                   </li>
                   <li class="nav-item active">
-                    <a class="nav-link" href="subevents_view.php">Sub-Events</a>
+                    <a class="nav-link" href="subevents_view.php">Fitness Programs</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
+                    <a class="nav-link" href="../pages/contact.html">Contact Us</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="login.html">Login</a>
+                  <?php
+                    if (isset($_SESSION["normal-userid"])) {
+                        echo "<form action='user_login.php' method='post'>";
+                        echo "<button class='nav-item' type='submit' name='logout'>Logout</button>";
+                        echo "</form>";
+                    } else {
+                        echo "<a class='nav-link' href='user_login.php'>Login</a>";
+                    }
+                    ?>
+
                   </li>
                 </ul>
               </div>
@@ -123,14 +132,71 @@
   <section class="about_section layout_padding">
     <div class="container">
       <div class="heading_container">
-        <h2>Register for Sub-Event</h2>
+        <h2>All Sub Events</h2>
         </div>
-        <form method="post" action="user_join_subevent.php">
-            <label for="subevent_id">Sub-Event ID:</label>
-            <input type="text" name="subevent_id" id="subevent_id" required>
-            <button type="submit">Join</button>
-        </form>
-    </div>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Sub Event Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Location</th>
+                <th>Quota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+                $con = mysqli_connect("localhost:3306", "root", "", "project") or die("Cannot connect to server." . mysqli_error($con));
+                $sql = "SELECT * FROM SubEvents";
+                $result = mysqli_query($con, $sql) or die('Cannot execute sql ' . mysqli_error($con));
+                while($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+                  echo "<tr>";
+                  echo "<td>" . $row['sub_event_name'] . "</td>";
+                  echo "<td>" . $row['description'] . "</td>";
+                  echo "<td>" . $row['date'] . "</td>";
+                  echo "<td>" . $row['start_time'] . "</td>";
+                  echo "<td>" . $row['end_time'] . "</td>";
+                  echo "<td>" . $row['location'] . "</td>";
+                  echo "<td>" . $row['quota'] . "</td>";
+                  echo "</tr>";
+                }
+              ?>
+            </tbody>
+          </table>
+          <?php
+  session_start();
+
+  if(isset($_SESSION["normal-userid"])) {
+?>
+
+<div class="join_subevent">
+  <div class="heading_container">
+    <h2>Pick a subevent to join</h2>
+  </div>
+  <form method="post" action="user_join_subevent-process.php">
+    <select name="subevent">
+      <?php
+        $con = mysqli_connect("localhost:3306", "root", "", "project") or die("Cannot connect to server." . mysqli_error($con));
+        $sql = "SELECT * FROM SubEvents";
+        $result = mysqli_query($con, $sql) or die('Cannot execute sql ' . mysqli_error($con));
+        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+          echo "<option value='" . $row['sub_event_id'] . "'>" . $row['sub_event_name'] . "</option>";
+        }
+      ?>
+    </select>
+    <input type="submit" value="Join Subevent">
+  </form>
+</div>
+
+<?php
+  }
+?>
+        </div>
+        </div>
+        </div>
   </section>
   <!-- end main section -->
 

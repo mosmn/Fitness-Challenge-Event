@@ -17,7 +17,7 @@ if (isset($_POST['logout'])) {
     } else {
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         if ($row["password"] == $password) {
-            $_SESSION["normal-userid"] = $row["username"];
+            $_SESSION["normal-userid"] = $row["user_id"];
             header("Location: user_join_subevent.php");
             exit();
         } else {
