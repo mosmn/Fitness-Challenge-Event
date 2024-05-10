@@ -1,3 +1,14 @@
+<?php
+  // Start the session
+  session_start();
+
+  // Check if the user is logged in, if not then redirect him to login page
+  if(!isset($_SESSION["userid"])){
+      header("location: admin-login.php");
+      exit;
+  }
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -12,7 +23,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Fitness Challenge Zoom</title>
+  <title>FCZ Admin</title>
 
   <!-- slider stylesheet -->
   <link rel="stylesheet" type="text/css"
@@ -39,7 +50,7 @@
           <a class="navbar-brand" href="../index.html">
             <img src="../images/logo.png" alt="" />
             <span>
-              Fitness Challenge Zoom
+            FCZ Admin
             </span>
           </a>
           <div class="contact_nav" id="">
@@ -82,11 +93,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <div class="d-flex  flex-column flex-lg-row align-items-center">
                 <ul class="navbar-nav  ">
-                  <li class="nav-item">
-                    <a class="nav-link" href="../index.html">Home</a>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="admin_view.php">Home <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="about.html">About <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="add_subevent-form.php">Add Sub-Event</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="service.html">Fitness Programs</a>
@@ -108,49 +119,23 @@
   </div>
 
 
-  <!-- about section -->
-
-  <section class="contact_section layout_padding">
+  <!-- main section -->
+  <section class="about_section layout_padding">
     <div class="container">
       <div class="heading_container">
-        <h2>
-          <span>
-            Admin Login
-          </span>
-        </h2>
+        <h2>Hi,  <?php echo htmlspecialchars($_SESSION["userid"]); ?>
+    </b>. Welcome to the admin page.</h2>
       </div>
-      <div class="layout_padding2-top">
-        <div class="row">
-          <div class="col-md-6 ">
-            <form method="POST" action="../php/admin_login.php" onsubmit="return validateForm()">
-                <div class="contact_form-container">
-                  <div>
-                    <div>
-                      <input type="text" placeholder="Username" name="username" id="username" />
-                    </div>
-                    <div>
-                      <input type="password" placeholder="Password" name="password" id="password" />
-                    </div>
-                    <div class="mt-5">
-                      <button type="submit">
-                        Log In
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-          </div>
-          <div class="col-md-6">
-            <div class="map_container">
-              <div class="map-responsive">
-              </div>
-            </div>
-          </div>
+      <div class="box">
+        <div class="detail-box">
+          <p>
+          Here you can view the list of registered users and their details and add sub-events to the main event.
+            </p>
         </div>
       </div>
     </div>
   </section>
-  <!-- end about section -->
+  <!-- end main section -->
 
   <!-- info section -->
 
