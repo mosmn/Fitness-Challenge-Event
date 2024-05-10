@@ -96,11 +96,11 @@
                   <li class="nav-item">
                     <a class="nav-link" href="admin_view.php">Home <span class="sr-only">(current)</span></a>
                   </li>
-                  <li class="nav-item active">
+                  <li class="nav-item">
                     <a class="nav-link" href="add_subevent-form.php">Add Sub-Event</a>
                   </li>
-                  <li class="nav-item">
-                  <a class="nav-link" href="subevents_view.php">Sub-Events</a>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="subevents_view.php">Sub-Events</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="contact.html">Contact Us</a>
@@ -123,32 +123,43 @@
   <section class="about_section layout_padding">
     <div class="container">
       <div class="heading_container">
-        <h2>Add Sub Event</h2>
-      </div>
-      <form method="post" action="add_subevent-process.php">
-    <label for="sub_event_name">Sub Event Name:</label><br>
-    <input type="text" id="sub_event_name" name="sub_event_name" required><br><br>
-    
-    <label for="description">Description:</label><br>
-    <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
-    
-    <label for="date">Date:</label><br>
-    <input type="date" id="date" name="date" required><br><br>
-    
-    <label for="start_time">Start Time:</label><br>
-    <input type="time" id="start_time" name="start_time" required><br><br>
-    
-    <label for="end_time">End Time:</label><br>
-    <input type="time" id="end_time" name="end_time" required><br><br>
-    
-    <label for="location">Location:</label><br>
-    <input type="text" id="location" name="location" required><br><br>
-    
-    <label for="quota">Quota:</label><br>
-    <input type="number" id="quota" name="quota" required><br><br>
-    
-    <input type="submit" value="Add Sub Event">
-</form>
+        <h2>All Sub Events</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Sub Event Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Location</th>
+                <th>Quota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+                $con = mysqli_connect("localhost:3306", "root", "", "project") or die("Cannot connect to server." . mysqli_error($con));
+                $sql = "SELECT * FROM SubEvents";
+                $result = mysqli_query($con, $sql) or die('Cannot execute sql ' . mysqli_error($con));
+                while($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+                  echo "<tr>";
+                  echo "<td>" . $row['sub_event_name'] . "</td>";
+                  echo "<td>" . $row['description'] . "</td>";
+                  echo "<td>" . $row['date'] . "</td>";
+                  echo "<td>" . $row['start_time'] . "</td>";
+                  echo "<td>" . $row['end_time'] . "</td>";
+                  echo "<td>" . $row['location'] . "</td>";
+                  echo "<td>" . $row['quota'] . "</td>";
+                  echo "</tr>";
+                }
+              ?>
+            </tbody>
+          </table>
+        </div>
+        </div>
+        </div>
   </section>
   <!-- end main section -->
 
@@ -258,6 +269,7 @@
     }
 
       function validateForm() {
+
       }
 
   </script>

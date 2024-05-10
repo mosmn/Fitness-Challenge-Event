@@ -100,7 +100,7 @@
                     <a class="nav-link" href="add_subevent-form.php">Add Sub-Event</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="service.html">Fitness Programs</a>
+                  <a class="nav-link" href="subevents_view.php">Sub-Events</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="contact.html">Contact Us</a>
