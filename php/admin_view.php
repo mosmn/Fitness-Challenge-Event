@@ -103,11 +103,17 @@
                   <a class="nav-link" href="subevents_view.php">Sub-Events</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
+                    <a class="nav-link" href="list_of_registered_users.php">Registered Users</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="login.html">Login</a>
-                  </li>
+                  <?php
+                    if (isset($_SESSION["userid"])) {
+                        echo "<form action='admin_login.php' method='post'>";
+                        echo "<button class='nav-item' type='submit' name='logout'>Logout</button>";
+                        echo "</form>";
+                    } else {
+                        echo "<a class='nav-link' href='user_login.php'>Login</a>";
+                    }
+                    ?>
                 </ul>
               </div>
             </div>
