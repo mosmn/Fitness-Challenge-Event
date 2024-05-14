@@ -231,7 +231,7 @@
               <a class="" href="#contactSection">Contact Us</a>
             </li>
             <li class="">
-              <a class="" href="admin-login.html">Admin Login</a>
+              <a class="" href="../pages/admin-login.html">Admin Login</a>
             </li>
             <li class="">
               <a class="" href="#">Login</a>
