@@ -73,6 +73,16 @@
                   <span>event@fcz.com</span>
                 </a>
               </li>
+              <!-- if the user is loged in, add a clickable profile icon here -->
+              <?php
+                if (isset($_SESSION["normal-userid"])) {
+                    echo "<li class='nav-item'>";
+                    echo "<a class='nav-link' href='user_profile.php'>";
+                    echo "<img src='../images/profile.webp' alt='' style='width: 40px; height: 40px; border-radius: 50%;'>";
+                    echo "</a>";
+                    echo "</li>";
+                }
+                ?>
             </ul>
           </div>
         </nav>

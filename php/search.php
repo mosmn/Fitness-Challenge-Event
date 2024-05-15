@@ -1,12 +1,10 @@
 <?php
-  // Start the session
-  session_start();
-
-  // Check if the user is logged in, if not then redirect him to login page
-  if(!isset($_SESSION["userid"])){
-      header("location: admin-login.php");
-      exit;
-  }
+// Check if the user is logged in as admin
+session_start();
+if (!isset($_SESSION["userid"])) {
+    header("Location: admin_login.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +37,43 @@
   <link href="../css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="../css/responsive.css" rel="stylesheet" />
+  <style>
+    form {
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        width: 80%;
+        margin-right: 10px;
+        margin-left: 10%;
+
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #f8bc1a;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f8bc1a;
+        color: white;
+    }
+</style>
 </head>
 
 <body class="sub_page about_page">
@@ -92,8 +127,8 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <div class="d-flex  flex-column flex-lg-row align-items-center">
-              <ul class="navbar-nav  ">
-                  <li class="nav-item active">
+                <ul class="navbar-nav  ">
+                  <li class="nav-item">
                     <a class="nav-link" href="admin_view.php">Home <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
@@ -105,7 +140,7 @@
                   <li class="nav-item">
                     <a class="nav-link" href="list_of_registered_users.php">Participants</a>
                   </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="search.php">Search Users</a>
                     </li>
                   <?php
@@ -130,20 +165,49 @@
 
   <!-- main section -->
   <section class="about_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>Hi,  <?php echo htmlspecialchars($_SESSION["userid"]); ?>
-    </b>. Welcome to the admin page.</h2>
-      </div>
-      <div class="box">
-        <div class="detail-box">
-          <p>
-          Here you can view the list of registered users and their details and add sub-events to the main event.
-            </p>
-        </div>
-      </div>
-    </div>
-  </section>
+    <form method="get">
+        <input type="text" name="query" placeholder="Search...">
+        <input type="submit" value="Search">
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if (isset($_GET['query'])) {
+                $query = $_GET['query'];
+                $con = mysqli_connect("localhost", "root", "", "project");
+                if (!$con) {
+                    die("Connection failed: " . mysqli_connect_error());
+                }
+
+                $sql = "SELECT * FROM Users WHERE username LIKE '%$query%' OR full_name LIKE '%$query%' OR email LIKE '%$query%'";
+                $result = mysqli_query($con, $sql);
+
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr>";
+                        echo "<td>" . $row['username'] . "</td>";
+                        echo "<td>" . $row['full_name'] . "</td>";
+                        echo "<td>" . $row['email'] . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='3'>No results found</td></tr>";
+                }
+
+                mysqli_close($con);
+            }
+            ?>
+        </tbody>
+    </table>
+</section>
   <!-- end main section -->
 
   <!-- info section -->
