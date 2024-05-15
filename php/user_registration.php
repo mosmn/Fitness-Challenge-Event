@@ -1,30 +1,24 @@
 <?php
-// Database connection parameters
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "user_regesteration";
+$dbname = "project";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Prepare and bind
-$stmt = $conn->prepare("INSERT INTO user_info (username, password, Email, Address) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("ssss", $username, $hashed_password, $email, $address);
+$stmt = $conn->prepare("INSERT INTO Users (full_name, username, password, email) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("ssss", $full_name, $username, $password, $email);
 
-// Set parameters and execute
+$full_name = $_POST['full_name'];
 $username = $_POST['username'];
-$hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$password = $_POST['password'];
 $email = $_POST['email'];
-$address = $_POST['address'];
 
 if($stmt->execute()) {
-    // Redirect to the success page
     header("Location: registration_success.php");
     exit();
 } else {

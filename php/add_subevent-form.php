@@ -39,6 +39,41 @@
   <link href="../css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="../css/responsive.css" rel="stylesheet" />
+  <style>
+    .about_section form {
+        background-color: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .about_section label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .about_section input, .about_section textarea, .about_section button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 0.5px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .about_section input[type="submit"] {
+        background-color: black;
+        color: white;
+        cursor: pointer;
+    }
+
+    .about_section input[type="submit"]:hover {
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+    }
+</style>
+
+<!-- Your form goes here -->
 </head>
 
 <body class="sub_page about_page">

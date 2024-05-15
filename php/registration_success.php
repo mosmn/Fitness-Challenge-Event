@@ -31,7 +31,7 @@
             margin: 0;
         }
         .message-box {
-            background-color: #E4BC56;
+            background-color: #f8bc1a;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -55,7 +55,7 @@
     <div class="message-box">
         <h1>Your registration is complete !</h1>
         <p>wellcome</p>
-        <a href="../index.html">Return to Home</a>
+        <a href="../pages/login.html">Go login now!</a>
     </div>
 </body>
 </html>
