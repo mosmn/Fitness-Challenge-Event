@@ -132,6 +132,15 @@ body {
   position: relative;
 }
 
+button .logoutbtn {
+  background-color: #f8bc1a;
+  color: #000000;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .custom_nav2 .navbar-expand-lg .navbar-nav .nav-item.active .nav-link, .custom_nav2 .navbar-expand-lg .navbar-nav .nav-item:hover .nav-link {
   color: #ffffff;
 }

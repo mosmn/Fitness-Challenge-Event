@@ -108,6 +108,15 @@ if (!isset($_SESSION["userid"])) {
                   <span>event@fcz.com</span>
                 </a>
               </li>
+              <?php
+                    if (isset($_SESSION["userid"])) {
+                        echo "<form action='admin_login.php' method='post'>";
+                        echo "<button type='submit' name='logout'style='background-color: #f00; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'>Logout</button>";
+                        echo "</form>";
+                    } else {
+                        echo "<a class='logoutbtn' href='user_login.php'>Login</a>";
+                    }
+                    ?>
             </ul>
           </div>
         </nav>
@@ -127,7 +136,7 @@ if (!isset($_SESSION["userid"])) {
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <div class="d-flex  flex-column flex-lg-row align-items-center">
-                <ul class="navbar-nav  ">
+              <ul class="navbar-nav  ">
                   <li class="nav-item">
                     <a class="nav-link" href="admin_view.php">Home <span class="sr-only">(current)</span></a>
                   </li>
@@ -143,15 +152,6 @@ if (!isset($_SESSION["userid"])) {
                     <li class="nav-item active">
                         <a class="nav-link" href="search.php">Search Users</a>
                     </li>
-                  <?php
-                    if (isset($_SESSION["userid"])) {
-                        echo "<form action='admin_login.php' method='post'>";
-                        echo "<button class='nav-item' type='submit' name='logout'>Logout</button>";
-                        echo "</form>";
-                    } else {
-                        echo "<a class='nav-link' href='user_login.php'>Login</a>";
-                    }
-                    ?>
                 </ul>
               </div>
             </div>
@@ -179,32 +179,32 @@ if (!isset($_SESSION["userid"])) {
             </tr>
         </thead>
         <tbody>
-            <?php
-            if (isset($_GET['query'])) {
-                $query = $_GET['query'];
-                $con = mysqli_connect("localhost", "root", "", "project");
-                if (!$con) {
-                    die("Connection failed: " . mysqli_connect_error());
-                }
+        <?php
+        if (isset($_GET['query'])) {
+          $query = strtolower($_GET['query']);
+          $con = mysqli_connect("localhost", "root", "", "project");
+          if (!$con) {
+            die("Connection failed: " . mysqli_connect_error());
+          }
 
-                $sql = "SELECT * FROM Users WHERE username LIKE '%$query%' OR full_name LIKE '%$query%' OR email LIKE '%$query%'";
-                $result = mysqli_query($con, $sql);
+          $sql = "SELECT * FROM Users WHERE LOWER(username) LIKE '%$query%' OR LOWER(full_name) LIKE '%$query%' OR LOWER(email) LIKE '%$query%'";
+          $result = mysqli_query($con, $sql);
 
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        echo "<td>" . $row['username'] . "</td>";
-                        echo "<td>" . $row['full_name'] . "</td>";
-                        echo "<td>" . $row['email'] . "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3'>No results found</td></tr>";
-                }
-
-                mysqli_close($con);
+          if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+              echo "<tr>";
+              echo "<td>" . $row['username'] . "</td>";
+              echo "<td>" . $row['full_name'] . "</td>";
+              echo "<td>" . $row['email'] . "</td>";
+              echo "</tr>";
             }
-            ?>
+          } else {
+            echo "<tr><td colspan='3'>No results found</td></tr>";
+          }
+
+          mysqli_close($con);
+        }
+        ?>
         </tbody>
     </table>
 </section>

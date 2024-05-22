@@ -73,7 +73,6 @@
                   <span>event@fcz.com</span>
                 </a>
               </li>
-              <!-- if the user is loged in, add a clickable profile icon here -->
               <?php
                 if (isset($_SESSION["normal-userid"])) {
                     echo "<li class='nav-item'>";
@@ -83,6 +82,15 @@
                     echo "</li>";
                 }
                 ?>
+              <?php
+                    if (isset($_SESSION["normal-userid"])) {
+                        echo "<form action='user_login.php' method='post'>";
+                        echo "<button type='submit' name='logout'style='background-color: #f00; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'>Logout</button>";
+                        echo "</form>";
+                    } else {
+                        echo "<a class='logoutbtn' href='user_login.php'>Login</a>";
+                    }
+                    ?>
             </ul>
           </div>
         </nav>
@@ -104,28 +112,18 @@
               <div class="d-flex  flex-column flex-lg-row align-items-center">
                 <ul class="navbar-nav  ">
                   <li class="nav-item">
-                    <a class="nav-link" href="../index.html">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="home.php">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="../pages/about.html">About</a>
+                    <a class="nav-link" href="about.php">About</a>
                   </li>
                   <li class="nav-item active">
-                    <a class="nav-link" href="subevents_view.php">Fitness Programs</a>
+                    <a class="nav-link" href="user_join_subevent.php">Fitness Programs</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="../pages/contact.html">Contact Us</a>
+                    <a class="nav-link" href="contact.php">Contact Us</a>
                   </li>
                   <li class="nav-item">
-                  <?php
-                    if (isset($_SESSION["normal-userid"])) {
-                        echo "<form action='user_login.php' method='post'>";
-                        echo "<button class='nav-item' type='submit' name='logout'>Logout</button>";
-                        echo "</form>";
-                    } else {
-                        echo "<a class='nav-link' href='user_login.php'>Login</a>";
-                    }
-                    ?>
-
                   </li>
                 </ul>
               </div>

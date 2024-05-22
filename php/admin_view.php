@@ -73,6 +73,15 @@
                   <span>event@fcz.com</span>
                 </a>
               </li>
+              <?php
+                    if (isset($_SESSION["userid"])) {
+                        echo "<form action='admin_login.php' method='post'>";
+                        echo "<button type='submit' name='logout'style='background-color: #f00; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'>Logout</button>";
+                        echo "</form>";
+                    } else {
+                        echo "<a class='logoutbtn' href='user_login.php'>Login</a>";
+                    }
+                    ?>
             </ul>
           </div>
         </nav>
@@ -108,15 +117,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="search.php">Search Users</a>
                     </li>
-                  <?php
-                    if (isset($_SESSION["userid"])) {
-                        echo "<form action='admin_login.php' method='post'>";
-                        echo "<button class='nav-item' type='submit' name='logout'>Logout</button>";
-                        echo "</form>";
-                    } else {
-                        echo "<a class='nav-link' href='user_login.php'>Login</a>";
-                    }
-                    ?>
                 </ul>
               </div>
             </div>

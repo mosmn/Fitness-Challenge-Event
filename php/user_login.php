@@ -5,7 +5,9 @@ session_start();
 
 if (isset($_POST['logout'])) {
     session_destroy();
-    echo "You have been logged out.";
+    header("Location: ../index.html");
+    exit();
+
 } else if (isset($_POST['username']) && isset($_POST['password'])) {
     $con = mysqli_connect("localhost:3306", "root", "", "project") or die("Cannot connect to server." . mysqli_error($con));
     $username = $_POST['username'];

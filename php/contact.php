@@ -1,36 +1,13 @@
 <?php
-// Start the session
-session_start();
+  // Start the session
+  session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION["normal-userid"])) {
-    header("Location: user_login.php");
-    exit();
-}
-
-// Database connection
-$con = mysqli_connect("localhost", "root", "", "project");
-if (!$con) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Get the user ID from the session
-$user_id = $_SESSION["normal-userid"];
-
-// Fetch the user's profile data from the database
-$user_sql = "SELECT * FROM Users WHERE user_id = $user_id";
-$user_result = mysqli_query($con, $user_sql);
-$user_row = mysqli_fetch_assoc($user_result);
-
-// Fetch the user's registered subevents from the database
-$participant_sql = "SELECT SubEvents.sub_event_name 
-                    FROM Participants 
-                    INNER JOIN SubEvents ON Participants.sub_event_id = SubEvents.sub_event_id 
-                    WHERE Participants.user_id = $user_id";
-$participant_result = mysqli_query($con, $participant_sql);
-
+  // Check if the user is logged in, if not then redirect him to login page
+  if(!isset($_SESSION["normal-userid"])){
+      header("location: user_login.php");
+      exit;
+  }
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -46,7 +23,7 @@ $participant_result = mysqli_query($con, $participant_sql);
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Fit Challenge Zoom</title>
+  <title>Fitness Challenge Zoom</title>
 
   <!-- slider stylesheet -->
   <link rel="stylesheet" type="text/css"
@@ -62,42 +39,9 @@ $participant_result = mysqli_query($con, $participant_sql);
   <link href="../css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="../css/responsive.css" rel="stylesheet" />
-  <style>
-    .about_section form {
-        background-color: white;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-    }
-
-    .about_section label {
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .about_section input, .about_section select, .about_section button {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 0.5px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .about_section button {
-        background-color: black;
-        color: white;
-        cursor: pointer;
-    }
-
-    .about_section button:hover {
-        background-color: white;
-        color: black;
-        border: 1px solid black;
-    }
-</style>
 </head>
 
-<body class="sub_page about_page">
+<body class="sub_page">
   <div class="hero_area">
     <!-- header section strats -->
     <header class="header_section">
@@ -191,56 +135,59 @@ $participant_result = mysqli_query($con, $participant_sql);
     <!-- end slider section -->
   </div>
 
-
-  <!-- main section -->
-  <section class="about_section layout_padding">
-  <form method="post" action="update_profile.php">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" value="<?php echo $user_row['username']; ?>" disabled>
-        <label for="full_name">Full Name:</label>
-        <input type="text" id="full_name" name="full_name" value="<?php echo $user_row['full_name']; ?>">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?php echo $user_row['email']; ?>">
-        <button type="submit">Update Profile</button>
-    </form>
-
-    <h2>Update Subevents</h2>
-    <form method="post" action="update_profile_subevents.php">
-        <select name="subevents[]" multiple>
-            <?php
-            // Fetch all subevents from the database
-            $subevents_sql = "SELECT * FROM SubEvents";
-            $subevents_result = mysqli_query($con, $subevents_sql);
-            while ($subevent_row = mysqli_fetch_assoc($subevents_result)) {
-                // Check if the user is registered for this subevent
-                $selected = '';
-                while ($participant_row = mysqli_fetch_assoc($participant_result)) {
-                    if ($subevent_row['sub_event_name'] == $participant_row['sub_event_name']) {
-                        $selected = 'selected';
-                        break;
-                    }
-                }
-                // Output subevent option
-                echo "<option value='" . $subevent_row['sub_event_id'] . "' $selected>" . $subevent_row['sub_event_name'] . "</option>";
-                // Reset pointer for participant result
-                mysqli_data_seek($participant_result, 0);
-            }
-            ?>
-        </select>
-        <button type="submit">Update</button>
-    </form>
-
-    <form method="post" action="user_logout.php">
-        <button type="submit" name="logout">Logout</button>
-    </form>
-
-    <?php
-    mysqli_close($con);
-    ?>
+  <!-- contact section -->
+  <section class="contact_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          <span>
+            Get In Touch
+          </span>
+        </h2>
+      </div>
+      <div class="layout_padding2-top">
+        <div class="row">
+          <div class="col-md-6 ">
+            <form action="">
+              <div class="contact_form-container">
+                <div>
+                  <div>
+                    <input type="text" placeholder="Name" />
+                  </div>
+                  <div>
+                    <input type="email" placeholder="Email" />
+                  </div>
+                  <div>
+                    <input type="text" placeholder="Phone Number" />
+                  </div>
+                  <div class="mt-5">
+                    <input type="text" placeholder="Message" />
+                  </div>
+                  <div class="mt-5">
+                    <button type="submit">
+                      Send
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <div class="map_container">
+              <div class="map-responsive">
+                <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1136.0915239623814!2d101.72831704204435!3d2.9739747189206795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2smy!4v1714906475853!5m2!1sen!2smy"
+                  width="600" height="300" frameborder="0" style="border:0; width: 100%; height:100%"
+                  allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
-  <!-- end main section -->
+  <!-- end contact section -->
 
-  <!-- info section -->
 
   <section class="info_section layout_padding2-top">
     <div class="container">
@@ -271,7 +218,7 @@ $participant_result = mysqli_query($con, $participant_sql);
               <a class="" href="#contactSection">Contact Us</a>
             </li>
             <li class="">
-              <a class="" href="../pages/admin-login.html">Admin Login</a>
+              <a class="" href="admin-login.html">Admin Login</a>
             </li>
             <li class="">
               <a class="" href="#">Login</a>
@@ -344,15 +291,6 @@ $participant_result = mysqli_query($con, $participant_sql);
         .querySelector(".custom_menu-btn")
         .classList.toggle("menu_btn-style");
     }
-
-      function validateForm() {
-
-      }
-
-    function showSubeventDropdown(subeventId) {
-      document.getElementById('subeventDropdown' + subeventId).style.display = 'block';
-    }
-
   </script>
 </body>
 

@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION["userid"])) {
     header("Location: admin_login.php");
     exit();
 }
 
-// Database connection
 $con = mysqli_connect("localhost", "root", "", "project");
 if (!$con) {
     die("Connection failed: " . mysqli_connect_error());
@@ -107,6 +105,15 @@ $result = mysqli_query($con, $sql);
                   <span>event@fcz.com</span>
                 </a>
               </li>
+              <?php
+                    if (isset($_SESSION["userid"])) {
+                        echo "<form action='admin_login.php' method='post'>";
+                        echo "<button type='submit' name='logout'style='background-color: #f00; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'>Logout</button>";
+                        echo "</form>";
+                    } else {
+                        echo "<a class='logoutbtn' href='user_login.php'>Login</a>";
+                    }
+                    ?>
             </ul>
           </div>
         </nav>
@@ -126,22 +133,22 @@ $result = mysqli_query($con, $sql);
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <div class="d-flex  flex-column flex-lg-row align-items-center">
-                <ul class="navbar-nav  ">
+              <ul class="navbar-nav  ">
                   <li class="nav-item">
                     <a class="nav-link" href="admin_view.php">Home <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="add_subevent-form.php">Add Sub-Event</a>
                   </li>
+                  <li class="nav-item">
+                  <a class="nav-link" href="subevents_view.php">Sub-Events</a>
+                  </li>
                   <li class="nav-item active">
-                    <a class="nav-link" href="subevents_view.php">Sub-Events</a>
+                    <a class="nav-link" href="list_of_registered_users.php">Participants</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="login.html">Login</a>
-                  </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search.php">Search Users</a>
+                    </li>
                 </ul>
               </div>
             </div>
